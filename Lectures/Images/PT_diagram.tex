@@ -1,0 +1,115 @@
+% Author: Izaak Neutelings (June, 2018)
+\documentclass[border=3pt,tikz]{standalone}
+
+%\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{biolinum}
+\usepackage{nicefrac}
+\usepackage{multicol}
+\usepackage{soul}
+\usepackage{multirow}
+\usepackage{gensymb}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{quantikz}
+\usepackage{textcomp}
+\usepackage{textgreek}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[export]{adjustbox}
+%\usefonttheme[onlymath]{serif}
+%\usetheme[nofirafonts]{focus}
+
+\usepackage[T1]{fontenc}
+\usepackage{ifthen}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{microtype}
+\usetikzlibrary{hobby} % for ..
+\usetikzlibrary{arrows.meta} % to control arrow size
+\tikzset{>={Latex[length=4,width=4]}} % for LaTeX arrow head
+\usetikzlibrary{calc,intersections,decorations.markings}
+\usepackage{siunitx}
+\usepackage{xcolor} % for colored text
+
+\colorlet{mylightblue}{blue!20}
+\colorlet{myblue}{blue!50!black}
+\colorlet{mydarkblue}{blue!30!black}
+\colorlet{mylightred}{red!10}
+\colorlet{myred}{red!50!black}
+\colorlet{mydarkred}{red!60!black}
+\colorlet{mydarkgreen}{green!30!black}
+
+%\tikzstyle{midarr}=[decoration={markings,mark=at position 0.5 with {\arrow{stealth}}},postaction={decorate}]
+\tikzset{
+  midarr/.style={decoration={markings,mark=at position #1 with {\arrow{stealth}}},postaction={decorate}},
+  midarr/.default=0.5
+}
+\def\tick#1#2{\draw[thick] (#1) ++ (#2:0.03*\ymax) --++ (#2-180:0.06*\ymax)}
+
+
+\begin{document}
+
+
+
+
+% PHASE DIAGRAM
+\begin{tikzpicture}[scale=0.4]
+  \message{Phase diagrams 2^^J}
+  
+  \def\xtick#1#2{\draw[thick] (#1)++(0,.2) --++ (0,-.4) node[below=-.5pt,scale=0.7] {#2};}
+  \def\ytick#1#2{\draw[thick] (#1)++(.2,0) --++ (-.4,0) node[left=-.5pt,scale=0.7] {#2};}
+  
+  % COORDINATES
+  \coordinate (O) at (0,0);
+  \coordinate (N1) at (2,10);
+  \coordinate (N2) at (11,10);
+  \coordinate (NE) at (12,10);
+  \coordinate (NW) at (0,10);
+  \coordinate (SE) at (12,0);
+  \coordinate (W) at (0,5);
+  \coordinate (S) at (6,0);
+  \coordinate (C) at (10.2,7.8); % critical
+  \coordinate (T) at (4,3); % triple
+  
+  % PATHS
+  \def\SL{(T) -- (N1)}
+  \def\SG{(O) to[out=20,in=-120] (T)}
+  \def\LG{(T) to[out=20,in=-120] (C)}
+  \def\atm{(0,5.5) -- (12,5.5)}
+  \path[name path=SL] \SL;
+  \path[name path=LG] \LG;
+  \path[name path=atm] \atm;
+  
+  % REGIONS
+  \fill[mylightblue] \SG -- (N1) -- (NW) -- cycle;
+  \fill[blue!5] \LG -- (N2) -- (N1) -- cycle;
+  \fill[mylightred] \LG -- (N2) -- (NE) -- (SE) -- \SG -- cycle;
+  \node at (1.5,4.2) {solid};
+  \node at (7.2,2.5) {gas};
+  \node at (6,6.6) {liquid};
+  
+  % POINTS
+  \fill (T) circle (4pt);
+  \fill (C) circle (4pt);
+
+  % \draw[-latex] (10.2, 6) -- (10.2, 7.5) {};
+  % \node[below] at (10.2, 6) {CFT};
+  
+  % LINES
+  \draw[thick] \SG;
+  \draw[thick] \LG;
+  \draw[thick] \SL;
+  
+  % AXES
+  \draw[thick] (O) rectangle (NE);
+  \node[left=3pt,above,rotate=90] at (W) {Pressure};
+  \node[below=3pt] at (S) {Temperature};
+  \node[above=3pt] at (6, 10) {Water};
+  
+\end{tikzpicture}
+
+\end{document}
